@@ -63,6 +63,20 @@ export default function Profile() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
+           const fetchSaleListings = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL || ""}/api/listing/get?type=sale&limit=4`,{
+            credentials: 'include'
+          }
+        );
+        const data = await res.json();
+        setSaleListings(data);
+      } catch (error) {
+        log(error);
+      }
+    };
           body: JSON.stringify(formData),
         },
       );
@@ -86,6 +100,7 @@ export default function Profile() {
         `${import.meta.env.VITE_BACKEND_URL || ""}/api/user/delete/${currentUser._id}`,
         {
           method: "DELETE",
+          credentials: "include",
         },
       );
       const data = await res.json();
@@ -103,7 +118,9 @@ export default function Profile() {
     try {
       dispatch(signOutUserStart());
       const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL || ""}/api/auth/signout`
+        `${import.meta.env.VITE_BACKEND_URL || ""}/api/auth/signout`,{
+          credentials: 'include'
+        }
       );
       const data = await res.json();
       if (data.success === false) {
@@ -120,7 +137,7 @@ export default function Profile() {
     try {
       setShowListingsError(false);
       const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL || ""}/api/user/listings/${currentUser._id}`
+        `${import.meta.env.VITE_BACKEND_URL || ""}/api/user/listings/${currentUser._id}`,{ credentials: 'include' }
       );
       const data = await res.json();
       if (data.success === false) {
@@ -140,6 +157,7 @@ export default function Profile() {
         `${import.meta.env.VITE_BACKEND_URL || ""}/api/listing/delete/${listingId}`,
         {
           method: "DELETE",
+          credentials: "include",
         },
       );
       const data = await res.json();
